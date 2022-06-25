@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import Container from '@mui/material/Container'
+import './App.css'
 
-function App() {
+// Components
+import InputField from './components/InputField'
+import TaskPane from './components/TaskPane'
+import { Task } from './models/Task'
+
+// Redux
+import store from './store'
+import { Provider } from 'react-redux'
+import { addTask } from './actions/itemActions'
+
+const App: React.FC = () => {
+  const [taskInput, setTaskInput] = useState<string>('')
+
+  const handleAddTask = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (taskInput) {
+      store.dispatch(
+        addTask({
+          id: uuidv4(),
+          task: taskInput,
+          isCompleted: false,
+        })
+      )
+      setTaskInput('')
+    } else {
+      // @todo: Add error message
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={store}>
+      <Container maxWidth="md">
+        <h1 style={{ fontSize: '2.2rem', padding: '1.5rem 0rem' }}>
+          Task List
+        </h1>
+        <InputField
+          taskInput={taskInput}
+          setTaskInput={setTaskInput}
+          handleAddTask={handleAddTask}
+        />
+        <TaskPane />
+      </Container>
+    </Provider>
+  )
 }
 
-export default App;
+export default App
