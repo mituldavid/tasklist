@@ -30,11 +30,11 @@ const TaskItem: React.FC<Props> = ({
   toggleComplete,
 }) => {
   const [editMode, setEditMode] = useState<boolean>(false)
-  const [editInput, setEditInput] = useState<string>(task.task)
+  const [editInput, setEditInput] = useState<string>(task.title)
 
   const handleEditTask = (e: React.FormEvent, id: string) => {
     e.preventDefault()
-    editTask(id, editInput)
+    if (editInput) editTask(id, editInput)
     setEditMode(false)
   }
 
@@ -42,7 +42,7 @@ const TaskItem: React.FC<Props> = ({
     deleteTask(id)
   }
 
-  const toggleCompleted = (e: React.FormEvent, id: string) => {
+  const handleToggleComplete = (e: React.FormEvent, id: string) => {
     e.stopPropagation()
     toggleComplete(id)
   }
@@ -61,7 +61,7 @@ const TaskItem: React.FC<Props> = ({
         alignItems="center"
         style={{ padding: '0 0.7rem 0 0.7rem' }}
       >
-        <Grid item xs={11}>
+        <Grid item xs={9} sm={11}>
           {editMode ? (
             <form
               onSubmit={(e) => handleEditTask(e, task.id)}
@@ -75,8 +75,8 @@ const TaskItem: React.FC<Props> = ({
                 InputProps={{
                   style: {
                     fontSize: 20,
-                    fontFamily: 'monospace',
-                    fontWeight: 'bold',
+                    fontFamily: 'Montserrat, monospace',
+                    fontWeight: '600',
                   },
                   endAdornment: (
                     <IconButton type="submit" aria-label="edit">
@@ -87,20 +87,23 @@ const TaskItem: React.FC<Props> = ({
               />
             </form>
           ) : (
-            <h2 onClick={(e) => toggleCompleted(e, task.id)}>
+            <h2
+              onClick={(e) => handleToggleComplete(e, task.id)}
+              style={{ fontSize: 22, fontWeight: 600 }}
+            >
               <Checkbox
                 color="success"
                 icon={<CircleOutlined />}
                 checkedIcon={<CheckCircle />}
                 checked={task.isCompleted}
-                onClick={(e) => toggleCompleted(e, task.id)}
-                sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
+                onClick={(e) => handleToggleComplete(e, task.id)}
+                sx={{ '& .MuiSvgIcon-root': { fontSize: 22 } }}
               />
-              {task.task}
+              {task.title}
             </h2>
           )}
         </Grid>
-        <Grid item xs={1} textAlign="center">
+        <Grid item xs={3} sm={1} textAlign="center">
           <IconButton
             size="small"
             aria-label="edit"
@@ -116,7 +119,8 @@ const TaskItem: React.FC<Props> = ({
           <IconButton
             size="small"
             aria-label="delete"
-            color="error"
+            color={task.isCompleted ? 'default' : 'error'}
+            style={{ transition: '0.5s' }}
             onClick={() => handleDeleteTask(task.id)}
           >
             <Delete />

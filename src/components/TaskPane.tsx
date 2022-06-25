@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Task } from '../models/Task'
 
 // Components
-import TaskItem from './Taskitem'
+import TaskItem from './TaskItem'
 
 // Types
 interface Props {

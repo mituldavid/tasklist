@@ -6,7 +6,6 @@ import './App.css'
 // Components
 import InputField from './components/InputField'
 import TaskPane from './components/TaskPane'
-import { Task } from './models/Task'
 
 // Redux
 import store from './store'
@@ -22,7 +21,7 @@ const App: React.FC = () => {
       store.dispatch(
         addTask({
           id: uuidv4(),
-          task: taskInput,
+          title: taskInput,
           isCompleted: false,
         })
       )
@@ -36,7 +35,7 @@ const App: React.FC = () => {
     <Provider store={store}>
       <Container maxWidth="md">
         <h1 style={{ fontSize: '2.2rem', padding: '1.5rem 0rem' }}>
-          Task List
+          tasklist.
         </h1>
         <InputField
           taskInput={taskInput}

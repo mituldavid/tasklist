@@ -29,9 +29,9 @@ const InputField: React.FC<Props> = ({
         placeholder="Add new task"
         value={taskInput}
         onChange={(e) => setTaskInput(e.target.value)}
-        InputLabelProps={{ shrink: true }}
+        InputLabelProps={{ shrink: true, style: { fontFamily: 'Montserrat, monospace' } }}
         InputProps={{
-          style: { fontSize: 20, fontFamily: 'monospace', fontWeight: 'bold' },
+          style: { fontSize: 18, fontFamily: 'Montserrat, monospace', fontWeight: '600' },
           endAdornment: (
             <IconButton type="submit" aria-label="add">
               <Add />
